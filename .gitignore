@@ -1,0 +1,13 @@
+# Laravel
+backend/.env
+backend/vendor/
+backend/storage/app/media/
+backend/storage/logs/
+backend/bootstrap/cache/
+
+# Node
+frontend/node_modules/
+frontend/dist/
+
+# Docker
+.DS_Store
