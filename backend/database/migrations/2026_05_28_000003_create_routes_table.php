@@ -13,12 +13,12 @@ return new class extends Migration
     {
         Schema::create('routes', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('zone_id')->constrained()->cascadeOnDelete();
-            $table->foreignId('category_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('zone_id')->constrained()->cascadeOnDelete()->index();
+            $table->foreignId('category_id')->constrained()->cascadeOnDelete()->index();
             $table->string('name');
             $table->string('slug')->unique();
             $table->text('description');
-            $table->enum('difficulty', ['fácil', 'moderado', 'difícil', 'experto']);
+            $table->enum('difficulty', ['fácil', 'moderado', 'difícil', 'experto'])->index();
             $table->unsignedSmallInteger('duration_minutes');
             $table->decimal('distance_km', 6, 2);
             $table->unsignedSmallInteger('elevation_gain_m')->nullable();
@@ -26,7 +26,7 @@ return new class extends Migration
             $table->decimal('start_lng', 10, 7);
             $table->string('cover_image')->nullable();
             $table->json('tips')->nullable();
-            $table->boolean('is_active')->default(true);
+            $table->boolean('is_active')->default(true)->index();
             $table->timestamps();
         });
     }

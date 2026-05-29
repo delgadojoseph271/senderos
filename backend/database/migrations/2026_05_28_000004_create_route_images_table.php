@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('route_images', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('route_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('route_id')->constrained()->cascadeOnDelete()->index();
             $table->string('image_url');
             $table->unsignedTinyInteger('sort_order')->default(0);
             $table->timestamps();

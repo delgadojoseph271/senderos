@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('bookings', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
-            $table->foreignId('route_id')->constrained()->restrictOnDelete();
-            $table->foreignId('guide_id')->constrained()->restrictOnDelete();
+            $table->foreignId('route_id')->constrained()->restrictOnDelete()->index();
+            $table->foreignId('guide_id')->constrained()->restrictOnDelete()->index();
             $table->date('date');
             $table->unsignedTinyInteger('pax')->default(1);
             $table->decimal('total_usd', 8, 2);
