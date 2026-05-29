@@ -28,7 +28,7 @@ class RouteController extends Controller
 
         $routes = $query->where('is_active', true)
             ->orderBy('name')
-            ->get();
+            ->paginate($request->integer('per_page', 50));
 
         return RouteResource::collection($routes);
     }
