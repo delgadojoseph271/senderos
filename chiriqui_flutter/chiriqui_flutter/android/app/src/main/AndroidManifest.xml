@@ -30,10 +30,6 @@
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
-        <!-- Mapbox Access Token (fallback if not set programmatically) -->
-        <meta-data
-            android:name="com.mapbox.token"
-            android:value="REPLACED_MAPBOX_TOKEN" />
     </application>
     <!-- Required to query activities that can process text, see:
          https://developer.android.com/training/package-visibility and
