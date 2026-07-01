@@ -1,0 +1,49 @@
+name: rutas_chiriqui
+description: Rutas turísticas de la provincia de Chiriquí, Panamá.
+version: 1.0.0+1
+publish_to: none
+
+environment:
+  sdk: ">=3.3.0 <4.0.0"
+  flutter: ">=3.19.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  # Navegación
+  go_router: ^13.0.0
+
+  # State management
+  flutter_riverpod: ^2.5.0
+
+  # HTTP
+  dio: ^5.4.0
+
+  # Auth storage seguro
+  flutter_secure_storage: ^9.0.0
+
+  # Favoritos locales
+  shared_preferences: ^2.2.0
+
+  # Mapas
+  mapbox_maps_flutter: ^2.1.0
+
+  # Imágenes con caché
+  cached_network_image: ^3.3.0
+
+  # Abrir WhatsApp / links externos
+  url_launcher: ^6.2.0
+
+  # Variables de entorno
+  flutter_dotenv: ^5.1.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^3.0.0
+
+flutter:
+  uses-material-design: true
+  assets:
+    - .env

@@ -18,13 +18,13 @@ class BookingResource extends JsonResource
             'total_usd' => (float) $this->total_usd,
             'notes' => $this->notes,
             'route' => [
-                'id' => $this->whenHas('route_id'),
-                'name' => $this->whenLoaded('route', fn() => $this->route->name),
-                'slug' => $this->whenLoaded('route', fn() => $this->route->slug),
+                'id' => $this->route_id,
+                'name' => $this->route?->name ?? '',
+                'slug' => $this->route?->slug ?? '',
             ],
             'guide' => [
-                'id' => $this->whenHas('guide_id'),
-                'name' => $this->whenLoaded('guide', fn() => $this->guide->name),
+                'id' => $this->guide_id,
+                'name' => $this->guide?->name ?? '',
             ],
             'created_at' => $this->created_at,
         ];

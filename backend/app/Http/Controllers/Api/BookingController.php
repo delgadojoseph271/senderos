@@ -20,7 +20,7 @@ class BookingController extends Controller
             ->orderByDesc('created_at')
             ->get();
 
-        return response()->json(BookingResource::collection($bookings));
+        return BookingResource::collection($bookings)->response();
     }
 
     public function store(Request $request): JsonResponse
@@ -52,7 +52,7 @@ class BookingController extends Controller
             'date' => $validated['date'],
             'pax' => $validated['pax'],
             'total_usd' => $total,
-            'notes' => $validated['notes'],
+            'notes' => $validated['notes'] ?? null,
             'status' => 'confirmed',
             'payment_status' => 'fake_paid',
         ]);

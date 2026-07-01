@@ -4,13 +4,9 @@ namespace App\Listeners;
 
 use App\Events\BookingConfirmed;
 use App\Services\BadgeEvaluatorService;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Queue\InteractsWithQueue;
 
-class EvaluateBadges implements ShouldQueue
+class EvaluateBadges
 {
-    use InteractsWithQueue;
-
     public function handle(BookingConfirmed $event): void
     {
         $booking = $event->booking;
