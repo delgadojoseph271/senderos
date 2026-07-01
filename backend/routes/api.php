@@ -29,12 +29,10 @@ Route::prefix('v1')->group(function () {
     Route::get('routes/{slug}/guides', [RouteController::class, 'guides']);
     Route::get('guides', [GuideController::class, 'index']);
 
-    // Bookings (auth required)
+    // Bookings + badges (auth required)
     Route::middleware('auth:sanctum')->group(function () {
         Route::apiResource('bookings', BookingController::class)->only(['index', 'store', 'show', 'destroy']);
+        Route::get('badges', [BadgeController::class, 'index']);
         Route::get('me/badges', [BadgeController::class, 'me']);
     });
-
-    // Badges (público)
-    Route::get('badges', [BadgeController::class, 'index']);
 });

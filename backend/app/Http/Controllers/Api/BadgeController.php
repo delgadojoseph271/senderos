@@ -5,21 +5,22 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\Badge;
 use App\Models\UserBadge;
+use App\Services\BadgeEvaluatorService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class BadgeController extends Controller
 {
-    public function index(Request $request): JsonResponse
+    public function index(Request $request, BadgeEvaluatorService $evaluator): JsonResponse
     {
+        $user = $request->user();
+        $evaluator->evaluate($user);
+
         $badges = Badge::orderBy('name')->get();
 
-        $userBadges = [];
-        if ($request->user()) {
-            $userBadges = UserBadge::where('user_id', $request->user()->id)
-                ->pluck('earned_at', 'badge_id')
-                ->toArray();
-        }
+        $userBadges = UserBadge::where('user_id', $user->id)
+            ->pluck('earned_at', 'badge_id')
+            ->toArray();
 
         $result = $badges->map(function ($badge) use ($userBadges) {
             $data = [
