@@ -21,14 +21,20 @@ class BookingModel {
 
   factory BookingModel.fromJson(Map<String, dynamic> j) => BookingModel(
     id: (j['id'] as num?)?.toInt() ?? 0,
-    status: j['status'] ?? '',
-    paymentStatus: j['payment_status'] ?? '',
-    date: j['date'] ?? '',
+    status: j['status']?.toString() ?? '',
+    paymentStatus: j['payment_status']?.toString() ?? '',
+    date: j['date']?.toString() ?? '',
     pax: (j['pax'] as num?)?.toInt() ?? 0,
     totalUsd: double.tryParse((j['total_usd'] ?? '0').toString()) ?? 0,
-    route: RouteBookingRef.fromJson(j['route'] ?? {}),
-    guide: GuideBookingRef.fromJson(j['guide'] ?? {}),
+    route: RouteBookingRef.fromJson(_asMap(j['route'])),
+    guide: GuideBookingRef.fromJson(_asMap(j['guide'])),
   );
+
+  static Map<String, dynamic> _asMap(dynamic value) {
+    if (value is Map<String, dynamic>) return value;
+    if (value is Map) return Map<String, dynamic>.from(value);
+    return {};
+  }
 }
 
 class RouteBookingRef {
@@ -37,7 +43,11 @@ class RouteBookingRef {
   final String slug;
   const RouteBookingRef({required this.id, required this.name, required this.slug});
   factory RouteBookingRef.fromJson(Map<String, dynamic> j) =>
-      RouteBookingRef(id: (j['id'] as num?)?.toInt() ?? 0, name: j['name'] ?? '', slug: j['slug'] ?? '');
+      RouteBookingRef(
+        id: (j['id'] as num?)?.toInt() ?? 0,
+        name: j['name']?.toString() ?? '',
+        slug: j['slug']?.toString() ?? '',
+      );
 }
 
 class GuideBookingRef {
@@ -45,5 +55,8 @@ class GuideBookingRef {
   final String name;
   const GuideBookingRef({required this.id, required this.name});
   factory GuideBookingRef.fromJson(Map<String, dynamic> j) =>
-      GuideBookingRef(id: (j['id'] as num?)?.toInt() ?? 0, name: j['name'] ?? '');
+      GuideBookingRef(
+        id: (j['id'] as num?)?.toInt() ?? 0,
+        name: j['name']?.toString() ?? '',
+      );
 }
