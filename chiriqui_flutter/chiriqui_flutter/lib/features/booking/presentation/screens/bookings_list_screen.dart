@@ -17,7 +17,27 @@ class BookingsListScreen extends ConsumerWidget {
       appBar: AppBar(title: const Text('Mis reservas')),
       body: async.when(
         loading: () => const Center(child: CircularProgressIndicator()),
-        error: (e, _) => Center(child: Text('Error: $e')),
+        error: (e, _) {
+          final text = e.toString();
+          final isAuth = text.contains('401') || text.contains('Unauthenticated');
+          return Center(
+            child: Column(mainAxisSize: MainAxisSize.min, children: [
+              Text(
+                isAuth
+                    ? 'Sesión expirada. Iniciá sesión de nuevo.'
+                    : 'No se pudieron cargar las reservas.',
+                textAlign: TextAlign.center,
+              ),
+              if (isAuth) ...[
+                const SizedBox(height: 16),
+                FilledButton(
+                  onPressed: () => context.go('/auth/login?redirect=/bookings'),
+                  child: const Text('Iniciar sesión'),
+                ),
+              ],
+            ]),
+          );
+        },
         data: (bookings) => bookings.isEmpty
             ? Center(
                 child: Column(mainAxisSize: MainAxisSize.min, children: [
@@ -51,7 +71,7 @@ class BookingsListScreen extends ConsumerWidget {
 
 class _BookingCard extends StatelessWidget {
   final BookingModel booking;
-  final VoidCallback onCancel;
+  final Future<void> Function() onCancel;
   const _BookingCard({required this.booking, required this.onCancel});
 
   Color _statusColor(String s) {
@@ -109,15 +129,21 @@ class _BookingCard extends StatelessWidget {
             Align(
               alignment: Alignment.centerRight,
               child: TextButton(
-                onPressed: () => showDialog(
+                onPressed: () => showDialog<void>(
                   context: context,
-                  builder: (_) => AlertDialog(
+                  builder: (dialogContext) => AlertDialog(
                     title: const Text('Cancelar reserva'),
                     content: const Text('¿Estás seguro? Esta acción no se puede deshacer.'),
                     actions: [
-                      TextButton(onPressed: () => Navigator.pop(context), child: const Text('No')),
+                      TextButton(
+                        onPressed: () => Navigator.pop(dialogContext),
+                        child: const Text('No'),
+                      ),
                       FilledButton(
-                        onPressed: () { Navigator.pop(context); onCancel(); },
+                        onPressed: () async {
+                          Navigator.pop(dialogContext);
+                          await onCancel();
+                        },
                         style: FilledButton.styleFrom(backgroundColor: Colors.red),
                         child: const Text('Cancelar reserva'),
                       ),

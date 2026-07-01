@@ -6,7 +6,28 @@ class BookingRepository {
 
   Future<List<BookingModel>> getBookings() async {
     final res = await _api.get('/bookings');
-    return (res.data as List).map((e) => BookingModel.fromJson(e)).toList();
+    return _parseBookingList(res.data);
+  }
+
+  List<BookingModel> _parseBookingList(dynamic raw) {
+    final items = _extractList(raw);
+    return items
+        .where((e) => e is Map)
+        .map((e) => BookingModel.fromJson(Map<String, dynamic>.from(e as Map)))
+        .toList();
+  }
+
+  List<dynamic> _extractList(dynamic raw) {
+    if (raw == null) return [];
+    if (raw is List) return raw;
+    if (raw is! Map) return [];
+
+    final map = Map<String, dynamic>.from(raw);
+    final data = map['data'];
+    if (data is List) return data;
+    if (data is Map) return [data];
+    if (map.containsKey('id')) return [map];
+    return [];
   }
 
   Future<BookingModel> createBooking({
@@ -23,7 +44,16 @@ class BookingRepository {
       'pax': pax,
       if (notes != null && notes.isNotEmpty) 'notes': notes,
     });
-    return BookingModel.fromJson(res.data);
+    return BookingModel.fromJson(_extractSingle(res.data));
+  }
+
+  Map<String, dynamic> _extractSingle(dynamic raw) {
+    if (raw is! Map) return {};
+    final map = Map<String, dynamic>.from(raw);
+    if (map['data'] is Map) {
+      return Map<String, dynamic>.from(map['data'] as Map);
+    }
+    return map;
   }
 
   Future<void> cancelBooking(int id) => _api.delete('/bookings/$id');
