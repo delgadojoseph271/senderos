@@ -11,7 +11,7 @@ class AppConstants {
     if (fromEnv != null && fromEnv.isNotEmpty) return fromEnv;
     if (kIsWeb) return 'http://localhost/api/v1';
     if (Platform.isAndroid) return 'http://10.0.2.2/api/v1';
-    return 'http://localhost/api/v1';
+    return 'http://127.0.0.1/api/v1';
   }
 
   static const String mapboxStyleOutdoors =

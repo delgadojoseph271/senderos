@@ -8,8 +8,20 @@ import 'core/theme/app_theme.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await dotenv.load(fileName: '.env');
-  MapboxOptions.setAccessToken(AppConstants.mapboxToken);
+
+  FlutterError.onError = (details) {
+    FlutterError.presentError(details);
+  };
+
+  ErrorWidget.builder = (details) => const Center(
+    child: Text('Error inesperado en la aplicación'),
+  );
+
+  try {
+    await dotenv.load(fileName: '.env');
+    MapboxOptions.setAccessToken(AppConstants.mapboxToken);
+  } catch (_) {}
+
   runApp(const ProviderScope(child: RutasChiriguiApp()));
 }
 
