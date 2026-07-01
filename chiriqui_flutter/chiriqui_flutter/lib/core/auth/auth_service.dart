@@ -32,7 +32,7 @@ class AuthService {
       'password': password,
     });
     final token = res.data['token'] as String;
-    await _storage.write(key: 'auth_token', value: token);
+    try { await _storage.write(key: 'auth_token', value: token); } catch (_) {}
     return UserSession.fromJson(res.data['user']);
   }
 
@@ -44,18 +44,22 @@ class AuthService {
       'password_confirmation': password,
     });
     final token = res.data['token'] as String;
-    await _storage.write(key: 'auth_token', value: token);
+    try { await _storage.write(key: 'auth_token', value: token); } catch (_) {}
     return UserSession.fromJson(res.data['user']);
   }
 
   Future<void> logout() async {
     try { await _api.post('/auth/logout'); } catch (_) {}
-    await _storage.delete(key: 'auth_token');
+    try { await _storage.delete(key: 'auth_token'); } catch (_) {}
   }
 
   Future<bool> get isLoggedIn async {
-    final token = await _storage.read(key: 'auth_token');
-    return token != null;
+    try {
+      final token = await _storage.read(key: 'auth_token');
+      return token != null;
+    } catch (_) {
+      return false;
+    }
   }
 
   Future<UserSession?> me() async {
