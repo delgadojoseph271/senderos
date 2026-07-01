@@ -11,11 +11,18 @@ class RouteFilters {
 
   const RouteFilters({this.zone, this.category, this.difficulty});
 
-  RouteFilters copyWith({String? zone, String? category, String? difficulty}) =>
+  RouteFilters copyWith({
+    String? zone,
+    String? category,
+    String? difficulty,
+    bool clearZone = false,
+    bool clearCategory = false,
+    bool clearDifficulty = false,
+  }) =>
       RouteFilters(
-        zone: zone ?? this.zone,
-        category: category ?? this.category,
-        difficulty: difficulty ?? this.difficulty,
+        zone: clearZone ? null : (zone ?? this.zone),
+        category: clearCategory ? null : (category ?? this.category),
+        difficulty: clearDifficulty ? null : (difficulty ?? this.difficulty),
       );
 }
 

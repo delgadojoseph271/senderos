@@ -5,9 +5,11 @@ class FavoritesNotifier extends StateNotifier<Set<String>> {
   FavoritesNotifier() : super({}) { _load(); }
 
   Future<void> _load() async {
-    final prefs = await SharedPreferences.getInstance();
-    final saved = prefs.getStringList('favorites') ?? [];
-    state = saved.toSet();
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      final saved = prefs.getStringList('favorites') ?? [];
+      state = saved.toSet();
+    } catch (_) {}
   }
 
   Future<void> toggle(String slug) async {

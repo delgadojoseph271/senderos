@@ -30,11 +30,13 @@ class RoutesRepository {
 
   Future<List<Map<String, dynamic>>> getZones() async {
     final res = await _api.get('/zones');
-    return List<Map<String, dynamic>>.from(res.data);
+    final data = res.data['data'] as List;
+    return data.cast<Map<String, dynamic>>();
   }
 
   Future<List<Map<String, dynamic>>> getCategories() async {
     final res = await _api.get('/categories');
-    return List<Map<String, dynamic>>.from(res.data);
+    final data = res.data['data'] as List;
+    return data.cast<Map<String, dynamic>>();
   }
 }

@@ -13,7 +13,7 @@ class HomeScreen extends ConsumerWidget {
     final zonesAsync = ref.watch(zonesProvider);
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Rutas de Chiriquí assda',
+        title: const Text('Rutas de Chiriquí',
             style: TextStyle(fontWeight: FontWeight.w600)),
         actions: [
           IconButton(icon: const Icon(Icons.search), onPressed: () {}),
@@ -30,11 +30,12 @@ class HomeScreen extends ConsumerWidget {
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 children: [
                   _FilterChip(
-                      label: 'Todas',
-                      selected: filters.zone == null,
-                      onTap: () => ref
-                          .read(routeFiltersProvider.notifier)
-                          .update((s) => s.copyWith())),
+                    label: 'Todas',
+                    selected: filters.zone == null,
+                    onTap: () => ref
+                        .read(routeFiltersProvider.notifier)
+                        .update((s) => s.copyWith(clearZone: true)),
+                  ),
                   ...zones.map((z) => _FilterChip(
                         label: z['name'],
                         selected: filters.zone == z['slug'],
@@ -61,10 +62,11 @@ class HomeScreen extends ConsumerWidget {
                       label: d,
                       selected: (d == 'Todas' && filters.difficulty == null) ||
                           filters.difficulty == d,
-                      onTap: () => ref
-                          .read(routeFiltersProvider.notifier)
-                          .update((s) =>
-                              s.copyWith(difficulty: d == 'Todas' ? null : d)),
+                      onTap: () => ref.read(routeFiltersProvider.notifier).update(
+                            (s) => d == 'Todas'
+                                ? s.copyWith(clearDifficulty: true)
+                                : s.copyWith(difficulty: d),
+                          ),
                     ),
                   )
                   .toList(),
