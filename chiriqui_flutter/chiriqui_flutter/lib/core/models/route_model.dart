@@ -1,3 +1,5 @@
+import '../utils/image_url.dart';
+
 class RouteModel {
   final int id;
   final String name;
@@ -48,7 +50,7 @@ class RouteModel {
     elevationGainM: (j['elevation_gain_m'] as num?)?.toInt(),
     startLat: double.parse((j['start_lat'] ?? '0').toString()),
     startLng: double.parse((j['start_lng'] ?? '0').toString()),
-    coverImage: j['cover_image'],
+    coverImage: rasterImageUrl(j['cover_image'] as String?),
     tips: (j['tips'] as List<dynamic>?)?.map((e) => e.toString()).toList() ?? [],
     isActive: j['is_active'] ?? true,
     zone: ZoneRef.fromJson(j['zone'] ?? {}),
@@ -86,7 +88,7 @@ class RouteImage {
   final int order;
   const RouteImage({required this.url, this.caption, required this.order});
   factory RouteImage.fromJson(Map<String, dynamic> j) =>
-      RouteImage(url: j['image_url'] ?? '', caption: j['caption'], order: (j['sort_order'] as num?)?.toInt() ?? 0);
+      RouteImage(url: rasterImageUrl(j['image_url'] as String?) ?? '', caption: j['caption'], order: (j['sort_order'] as num?)?.toInt() ?? 0);
 }
 
 class GuideRef {
@@ -106,7 +108,7 @@ class GuideRef {
     id: (j['id'] as num?)?.toInt() ?? 0,
     name: j['name'] ?? '',
     phoneWhatsapp: j['whatsapp'] ?? '',
-    photo: j['photo'],
+    photo: rasterImageUrl(j['photo'] as String?),
     languages: (j['languages'] as String?) ?? 'Español',
   );
 }

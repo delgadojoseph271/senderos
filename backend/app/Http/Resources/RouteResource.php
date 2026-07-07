@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Support\ImageUrl;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -20,7 +21,7 @@ class RouteResource extends JsonResource
             'elevation_gain_m' => $this->elevation_gain_m,
             'start_lat' => (float) $this->start_lat,
             'start_lng' => (float) $this->start_lng,
-            'cover_image' => $this->cover_image,
+            'cover_image' => ImageUrl::rasterize($this->cover_image),
             'tips' => $this->tips ?? [],
             'is_active' => $this->is_active,
             'zone' => new ZoneResource($this->whenLoaded('zone')),

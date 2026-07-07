@@ -11,8 +11,12 @@ class CategoryController extends Controller
 {
     public function index()
     {
-        $categories = Cache::remember('categories.index', 300, fn () => Category::withCount('routes')->orderBy('name')->get());
+        $payload = Cache::remember('categories.index', 300, function () {
+            $categories = Category::withCount('routes')->orderBy('name')->get();
 
-        return CategoryResource::collection($categories);
+            return CategoryResource::collection($categories)->response()->getData(true);
+        });
+
+        return response()->json($payload);
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Support\ImageUrl;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -15,7 +16,7 @@ class GuideResource extends JsonResource
             'phone' => $this->phone,
             'whatsapp' => $this->whatsapp,
             'bio' => $this->bio,
-            'photo' => $this->photo,
+            'photo' => ImageUrl::rasterize($this->photo),
         ];
     }
 }

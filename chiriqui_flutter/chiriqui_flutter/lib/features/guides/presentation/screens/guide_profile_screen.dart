@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../../../core/api/api_client.dart';
+import '../../../../core/utils/image_url.dart';
 
 class GuideProfileScreen extends StatelessWidget {
   final int guideId;
@@ -23,7 +24,7 @@ class GuideProfileScreen extends StatelessWidget {
                 child: CircleAvatar(
                   radius: 52,
                   backgroundImage: g['photo'] != null
-                      ? CachedNetworkImageProvider(g['photo']) : null,
+                      ? CachedNetworkImageProvider(rasterImageUrl(g['photo'] as String?)!) : null,
                   backgroundColor: Colors.grey.shade200,
                   child: g['photo'] == null ? const Icon(Icons.person, size: 44) : null,
                 ),

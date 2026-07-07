@@ -11,8 +11,12 @@ class ZoneController extends Controller
 {
     public function index()
     {
-        $zones = Cache::remember('zones.index', 300, fn () => Zone::withCount('routes')->orderBy('name')->get());
+        $payload = Cache::remember('zones.index', 300, function () {
+            $zones = Zone::withCount('routes')->orderBy('name')->get();
 
-        return ZoneResource::collection($zones);
+            return ZoneResource::collection($zones)->response()->getData(true);
+        });
+
+        return response()->json($payload);
     }
 }
